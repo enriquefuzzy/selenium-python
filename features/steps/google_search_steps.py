@@ -20,11 +20,11 @@ def step_then_dog_results_displayed(context):
     # Verify that the search results contain the word "Dog"
     search_results = WebDriverWait(context.driver, timeout=10).until(lambda d: d.find_element(By.XPATH,"//div[@data-attrid='title'][contains(text(), 'Dog')]"))
     search_results = context.driver.find_element(By.XPATH, "//div[@data-attrid='title'][contains(text(), 'Dog')]")
-    assert search_results, "Dog results are not displayed"
+    assert search_results.text == 'Dog', "Dog results are not displayed"
 
 @then('Cat results are displayed')
 def step_then_dog_results_displayed(context):
-    # Verify that the search results contain the word "Dog"
+    # Verify that the search results contain the word "Cat"
     search_results = WebDriverWait(context.driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR,"[data-attrid=title]"))
     search_results = context.driver.find_element(By.CSS_SELECTOR, "[data-attrid=title]")
-    assert search_results, "Cat results are not displayed"
+    assert search_results.text == 'Cat', "Cat results are not displayed"
