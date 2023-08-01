@@ -3,10 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
+# Chrome WebDriver is created/torn down before/after each scenario in features/environment.py
 @given('the user is on Google')
 def step_given_user_on_google(context):
-    # Create an instance of the Chrome WebDriver
-    context.driver = webdriver.Chrome()
     context.driver.get("https://www.google.com")
 
 @when('the user searches for "{search_term}"')
@@ -23,5 +22,9 @@ def step_then_dog_results_displayed(context):
     search_results = context.driver.find_element(By.XPATH, "//div[@data-attrid='title'][contains(text(), 'Dog')]")
     assert search_results, "Dog results are not displayed"
 
-    # Close the browser
-    context.driver.quit()
+@then('Cat results are displayed')
+def step_then_dog_results_displayed(context):
+    # Verify that the search results contain the word "Dog"
+    search_results = WebDriverWait(context.driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR,"[data-attrid=title]"))
+    search_results = context.driver.find_element(By.CSS_SELECTOR, "[data-attrid=title]")
+    assert search_results, "Cat results are not displayed"
